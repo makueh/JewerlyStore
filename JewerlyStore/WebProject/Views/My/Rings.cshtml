@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/myStyle.css" rel="stylesheet" />
+    <link href="~/Content/myStyle2.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    <title>Rings</title>
+</head>
+<body style="background:linear-gradient(dimgray, white)!important">
+    <div class="container bootdey">
+        <div>
+            <nav class="navbar navbar-default " style="font-weight:600!important">
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="~/My/Index">Jewerly Store</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="ustMenu">
+                        <ul class="nav navbar-nav">
+                            <li><a href="~/My/Index">Ana Sayfa</a></li>
+                            <li><a href="~/My/Charms">Charms</a></li>
+                            <li><a href="~/My/Necklaces">Necklaces</a></li>
+                            <li><a href="~/My/Rings">Rings</a></li>
+                            <li><a href="~/My/Earings">Earrings</a></li>
+                            <li><a href="~/My/Bracelets">Bracelets</a></li>
+                        </ul>
+                        @{
+                            if (User.IsInRole("A"))
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li><a href="~/My/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                    <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                    <li><a href="~/My/AddProduct">Ürün ekle</a></li>
+                                    <li><a href="~/My/DeleteAllProduct">Ürünler</a></li>
+                                </ul>
+
+                            }
+
+                            else if (User.IsInRole("U"))
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li><a href="~/My/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                    <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="~/My/Signup"><span class="glyphicon glyphicon-user"></span> Kaydol</a></li>
+                                    <li><a href="~/My/Login"><span class="glyphicon glyphicon-log-in"></span> Giriş</a></li>
+
+                                </ul>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </nav>
+
+        </div>
+        <div class="row clearfix" style=" display: flex!important; flex-wrap: wrap!important;">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-12">
+                    <div class="card product_item" style="float:left">
+                        <div class="body">
+                            <div class="cp_img">
+                                <img src="~/Content/image/@item.Image" class="img-fluid" width="236" height="200" />
+                                <div class="hover">
+                                    @Html.ActionLink(" ", "AddToCart", "My", new { productID = @item.ProductID }, new { @class = "zmdi zmdi-plus btn btn-primary btn-sm waves-effect" })
+                                </div>
+                            </div>
+                            <div class="product_details" style="font-weight:600!important">
+                                <h5><a href="~/My/Details/@item.ProductID">@item.Name</a></h5>
+                                <ul class="product_price list-unstyled">
+                                    <li class="old_price">@item.Price ₺</li>
+                                    <li class="new_price">@item.DiscountedPrice</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <div class="modal-footer">
+            © copyright
+        </div>
+    </div>
+</body>
+</html>

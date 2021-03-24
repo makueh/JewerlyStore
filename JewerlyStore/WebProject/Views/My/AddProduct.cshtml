@@ -1,0 +1,161 @@
+﻿@model WebProject.Models.Products
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/myStyle2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    <title>AddProduct</title>
+</head>
+<body class="container bootdey" style="background:linear-gradient(dimgray, white) no-repeat !important">
+    <div>
+        <nav class="navbar navbar-default" style="font-weight:600!important">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="~/My/Index">Jewerly Store</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="ustMenu">
+                    <ul class="nav navbar-nav">
+                        <li><a href="~/My/Index">Ana Sayfa</a></li>
+                        <li><a href="~/My/Charms">Charms</a></li>
+                        <li><a href="~/My/Necklaces">Necklaces</a></li>
+                        <li><a href="~/My/Rings">Rings</a></li>
+                        <li><a href="~/My/Earings">Earrings</a></li>
+                        <li><a href="~/My/Bracelets">Bracelets</a></li>
+                    </ul>
+                    @{
+                        if (User.IsInRole("A"))
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+
+                                <li><a href="~/My/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                <li><a href="~/My/AddProduct">Ürün ekle</a></li>
+                                <li><a href="~/My/DeleteAllProduct">Ürünler</a></li>
+                            </ul>
+
+                        }
+
+                        else if (User.IsInRole("U"))
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+
+                                <li><a href="~/My/Cart/@Session["id"]"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="~/My/Signup"><span class="glyphicon glyphicon-user"></span> Kaydol</a></li>
+                                <li><a href="~/My/Login"><span class="glyphicon glyphicon-log-in"></span> Giriş</a></li>
+
+                            </ul>
+                        }
+                    }
+                </div>
+
+            </div>
+        </nav>
+
+    </div>
+    <div style="width:50%!important">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Add Products</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CategoryID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <input type="hidden" name="Stock" value="True" >
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image2, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Image2, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Image2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Image3, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Image3, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Image3, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add Product" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+        }
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@Session["Message"]");
+                    }
+
+            </script>
+        }
+        <div>
+            @Html.ActionLink("Back to Index", "Index")
+        </div>
+    </div>
+</body>
+</html>

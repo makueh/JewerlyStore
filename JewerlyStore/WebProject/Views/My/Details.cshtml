@@ -1,0 +1,169 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/myStyle.css" rel="stylesheet" />
+    <link href="~/Content/myStyle2.css" rel="stylesheet" />
+    <link href="~/Content/Details.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    <title>Details</title>
+</head>
+<body style="background:linear-gradient(dimgray, white) no-repeat !important">
+    <div class="container bootdey">
+        <div>
+            <nav class="navbar navbar-default " style="font-weight:600!important">
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="~/My/Index">Jewerly Store</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="ustMenu">
+                        <ul class="nav navbar-nav">
+                            <li><a href="~/My/Index">Ana Sayfa</a></li>
+                            <li><a href="~/My/Charms">Charms</a></li>
+                            <li><a href="~/My/Necklaces">Necklaces</a></li>
+                            <li><a href="~/My/Rings">Rings</a></li>
+                            <li><a href="~/My/Earings">Earrings</a></li>
+                            <li><a href="~/My/Bracelets">Bracelets</a></li>
+                        </ul>
+                        @{
+                            if (User.IsInRole("A"))
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li><a href="~/My/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                    <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                    <li><a href="~/My/AddProduct">Ürün ekle</a></li>
+                                    <li><a href="~/My/DeleteAllProduct">Ürünler</a></li>
+                                </ul>
+
+                            }
+
+
+                            else if (User.IsInRole("U"))
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li><a href="~/My/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                    <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="~/My/Signup"><span class="glyphicon glyphicon-user"></span> Kaydol</a></li>
+                                    <li><a href="~/My/Login"><span class="glyphicon glyphicon-log-in"></span> Giriş</a></li>
+
+                                </ul>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </nav>
+            <div class="col-md-12">
+                @foreach (var item in Model)
+                {
+                    <section class="panel">
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="pro-img-details">
+                                    <img src="~/Content/image/@item.Image" alt="">
+                                </div>
+                                <div class="pro-img-list">
+                                    @if (item.Image2 != "null")
+                                    {
+                                        <a href="#">
+                                            <img src="~/Content/image/@item.Image2" width="115" height="100" alt="">
+                                        </a>
+                                    }
+                                    @if (item.Image3 != "null")
+                                    {
+                                        <a href="#">
+                                            <img src="~/Content/image/@item.Image3" width="115" height="100" alt="">
+                                        </a>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="pro-d-title">
+                                    <a href="#" class="">
+                                        @item.Name
+                                    </a>
+                                </h4>
+                                <p>
+                                    @item.Description
+                                </p>
+                                <div class="product_meta">
+                                    <span class="posted_in">
+
+                                        @switch (item.CategoryID)
+                                        {
+                                            case 1:<strong>Categories:</strong> <a rel="tag" href="~/My/Charms"><b>Charm</b></a>
+                                                break;
+                                            case 2: <strong>Categories:</strong> <a rel="tag" href="~/My/Charms"><b>Necklace</b></a>
+                                                break;
+                                            case 3:<strong>Categories:</strong> <a rel="tag" href="~/My/Charms"><b>Rings</b></a>
+                                                break;
+                                            case 4:<strong>Categories:</strong> <a rel="tag" href="~/My/Charms"><b>Earings</b></a>
+                                                break;
+                                            case 5:<strong>Categories:</strong> <a rel="tag" href="~/My/Charms"><b>Bracelets</b></a>
+                                                break;
+                                        }
+
+                                    </span>
+
+
+                                </div>
+                                <div class="m-bot15"> <strong>Price : </strong> <span class="pro-price"> @item.Price ₺</span></div>
+                                <div class="m-bot15">
+                                    <strong>Stock : </strong> <span class="pro-price">
+                                        @if (item.Stock == true)
+                                        {<b>Stokta var. </b>}
+                                        @if (item.Stock != true)
+                                        {<b>Stokta yok.</b>}
+                                    </span>
+                                </div>
+                                <div style="float:right!important;margin-top:40%!important">
+                                    @if (item.Stock == true)
+                                    {
+
+                                        <p>
+                                            @Html.ActionLink("Add to Cart", "AddToCart", "My", new { productID = @item.ProductID }, new { @class = "btn btn-round btn-danger fa fa-shopping-cart" })
+
+                                        </p>
+                                    }
+                                    @if (User.IsInRole("A"))
+                                    {
+
+                                        <p>
+                                            @Html.ActionLink("Delete Product", "DeleteProduct", "My", new { productID = @item.ProductID }, new { @class = "btn btn-round btn-danger fa fa-shopping-cart" })
+
+                                        </p>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                }
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            © copyright
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="~/Content/cart.css" rel="stylesheet" />
+    <title>Cart</title>
+</head>
+<body style="background:linear-gradient(dimgray, white) no-repeat !important;">
+    <div class="container pb-5 mb-2">
+        <div>
+            <nav class="navbar navbar-default " style="font-weight:600!important">
+                <div class="container-fluid">
+
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="~/My/Index">Jewerly Store</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="ustMenu">
+                        <ul class="nav navbar-nav">
+                            <li><a href="~/My/Index">Ana Sayfa</a></li>
+                            <li><a href="~/My/Charms">Charms</a></li>
+                            <li><a href="~/My/Necklaces">Necklaces</a></li>
+                            <li><a href="~/My/Rings">Rings</a></li>
+                            <li><a href="~/My/Earings">Earings</a></li>
+                            <li><a href="~/My/Bracelets">Bracelets</a></li>
+                        </ul>
+                        @{
+                            if (User.IsInRole("A"))
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li><a href="~/My/Cart/"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                    <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                    <li><a href="~/My/AddProduct">Ürün ekle</a></li>
+                                    <li><a href="~/My/DeleteAllProduct">Ürünler</a></li>
+                                </ul>
+
+                            }
+                            else if (User.IsInRole("U"))
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li><a href="~/My/Cart"><span class="glyphicon glyphicon-shopping-cart"></span>Sepet</a></li>
+                                    <li><a href="~/My/Signout"><span class="glyphicon glyphicon-log-out"></span>Çıkış Yap</a></li>
+                                </ul>
+                            }
+                            else
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li><a href="~/My/Signup"><span class="glyphicon glyphicon-user"></span> Kaydol</a></li>
+                                    <li><a href="~/My/Login"><span class="glyphicon glyphicon-log-in"></span> Giriş</a></li>
+
+                                </ul>
+                            }
+                        }
+                    </div>
+                </div>
+            </nav>
+
+
+        </div>
+
+
+        @foreach (var item in Model)
+        {
+            <div class="cart-item d-md-flex justify-content-between" style="display: flex !important; flex-wrap: wrap !important;">
+                @Html.ActionLink(" ", "RemoveToCart", "My", new { productID = @item.Products.ProductID }, new { @class = "remove-item fa fa-times" })
+
+                <div class="px-3 my-3 text-left " style="width:60%!important">
+                    <br />
+                    <div class="cart-item-product-thumb"><img src="~/Content/image/@item.Products.Image" alt="Product"></div>
+                    <div class="cart-item-product-info ">
+                        <h4 class="cart-item-product-title">@item.Products.Name</h4>
+
+                    </div>
+                    <br />
+                </div>
+                <div class="px-3 my-3 cart-item-product-title text-center" style="margin-top:3%!important;width:30%!important">
+                    Quantity
+                    <div class="text-center">
+                        @Html.ActionLink(" ", "AddToCart", "My", new { productID = @item.ProductID }, new { @class = "glyphicon glyphicon-plus" })
+
+                        <b>@item.Quantity</b>
+                    </div>
+
+                </div>
+                <div class="px-3 my-3 cart-item-product-title text-center" style="margin-top:3%!important;">
+
+                    <div class="cart-item-label">Subtotal</div><span class="text-xl font-weight-medium">@item.TotalPrice ₺</span>
+                </div>
+
+            </div>
+        }
+
+
+        <div class="d-sm-flex justify-content-between align-items-center text-center text-sm-left font-weight-medium">
+            <div class="px-3 my-3"><span class="d-inline-block align-middle text-sm text-muted  text-uppercase ">Subtotal:</span><span class="d-inline-block align-middle text-xl font-weight-medium">@Session["TotalCartPrice"] ₺</span></div>
+        </div>
+        <hr class="my-2">
+        <div class="row pt-3 pb-5 mb-2">
+            <div class="col-sm-6 mb-3" style="margin-left:50%!important"><a class="btn btn-style-1 btn-primary btn-block" href="~/My/CheckOut"><i class="fe-icon-credit-card"></i>Checkout</a></div>
+        </div>
+
+
+        <div class="modal-footer">
+            © copyright
+        </div>
+    </div>
+
+
+
+</body>
+</html>
